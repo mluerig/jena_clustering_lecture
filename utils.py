@@ -62,3 +62,43 @@ def extract_features(contour, gray, mask):
 
     # Return all features in a list
     return [area, diameter, circularity, mean, variance, skewness, kurt]
+
+
+def refactor_array(data, threshold=5):
+    """
+    Refactor an array such that each distinct number, once it has appeared at least 'threshold' times,
+    is sequentially mapped to integers starting from 0 based on the order of its first appearance
+    after reaching the threshold.
+
+    Parameters:
+    data (np.array): The original numpy array with numerical data.
+    threshold (int): The minimum number of occurrences before a number is reassigned.
+
+    Returns:
+    np.array: A new array where each value meeting the occurrence threshold is replaced by an integer
+              starting from 0 based on the order of its first appearance post-threshold.
+    """
+    # Track first appearances and count occurrences
+    occurrence_count = {}
+    refactoring_map = {}
+    output_array = np.empty_like(data)
+
+    for i, num in enumerate(data):
+        # Update occurrence count
+        if num in occurrence_count:
+            occurrence_count[num] += 1
+        else:
+            occurrence_count[num] = 1
+
+        # Check if the number meets the threshold for refactoring
+        if occurrence_count[num] == threshold:
+            if num not in refactoring_map:
+                refactoring_map[num] = len(refactoring_map)
+        
+        # Assign new value if eligible, otherwise assign original value
+        if num in refactoring_map:
+            output_array[i] = refactoring_map[num]
+        else:
+            output_array[i] = num  # Assign a placeholder or the original value until refactoring
+
+    return output_array
