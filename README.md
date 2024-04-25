@@ -8,5 +8,13 @@
 
 2\. Download and unpack repository
 
-3\. Run notebook
+3\. Open unpacked folder and start a terminal, activate environment and run notebook:
+
+    cd ~\downloads\jena_clustering_lecture_main\
+    mamba activate clustering_lecture
+    jupyter notebook
+
+4\. Open the notebooks and run the code
+
+Please feel free to email me if you have any questions!
 
